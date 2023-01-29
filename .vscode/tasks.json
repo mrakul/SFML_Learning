@@ -1,0 +1,114 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "process",
+            "label": "C/C++: gcc.exe build active file",
+            "command": "C:\\Program Files\\mingw\\mingw64\\bin\\g++.exe",                       // C++ compilation
+            // "command": "C:\\Program Files\\mingw\\mingw64\\bin\\gcc.exe",                    // C compilation
+            "args": [
+                /*** Include section ***/
+                //"-IC:\\Program Files\\mingw-w64\\mingw64\\x86_64-w64-mingw32\\include",
+
+                /*** Boost includes (need to add to c_cpp_properties.json also) ***/
+                // "-I", "C:\\boost\\include\\",
+                // "-L", "C:\\boost\\lib\\",
+
+                /*** SFML includes ***/
+                "-I${workspaceFolder}\\SFML-2.5.1\\include\\",
+                // "-DSFML_STATIC",                                     // Flag if want SFML statically linking
+                "-L${workspaceFolder}\\SFML-2.5.1\\lib\\",
+
+                /***  Warnings and errors MAXIMUM ***/
+                "-Wall", "-Werror",
+                "-pedantic-errors",
+                "-pedantic",
+                // To disable some warnings:
+                //-Wunused -Wunused-function -Wunused-label -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable
+                // "-Wno-unused-variable",
+                // "-Wno-unused-but-set-variable",
+
+                /*** Choose the standard ***/
+                // C++:
+                // "-std=c++2a",
+                "-std=gnu++11",
+                // "-std=c++11",
+                //-std=c++98",
+
+                // C:
+                // "-std=c17",                                      // C compilation
+                // "-ansi",
+                /***************************/
+
+                /*** Compile options ***/
+                // "-c",                                         // Only compile file (-c option), make object-files
+                "${file}",
+                // "${fileDirname}\\*.cpp",                         // C++ files
+                // "${fileDirname}\\*.c",                           // C files
+                // "../../OOP/MyTime (OpOverload)/*.cpp",        // To compile Smart Pointers with MyTime example
+                // Add debug info (-g option) to the object file (files)
+                // "-g",
+
+                // 3. Link all object files together to Program.exe, preliminary need to compile separately
+                //"${fileDirname}\\**.o",
+                "-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+
+                // Optimization level:
+                // "-O3",
+                // "-O0",
+                // "-Og",                                           // Optimize debugging experience
+
+                /*** Boost libraries linking ***/
+                // "-lwsock32",
+                // "-lboost_filesystem-mgw11-mt-d-x64-1_80",
+                // "-lboost_system-mgw11-mt-d-x64-1_80"
+
+                /*** SFML libraries linking ***/
+                // 1. For statically linking (doesn't work yet)
+                // "-lsfml-graphics-s", "-lsfml-window-s", "-lsfml-system-s",
+                // "-lopengl32", "-lwinmm", "-lgdi32",  "-mwindows"
+
+                // 2. For dynamically linking:
+                "-lsfml-graphics", "-lsfml-window", "-lsfml-system",
+
+                //"-nostartfiles"
+                //Explicitly specify the language to compile (WORKS BAD!)
+                //"-x",
+                //"c",
+            ],
+            "options": {
+                //"cwd": "${workspaceFolder}"
+                "cwd": "${fileDirname}"
+                //"cwd": "${cwd}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: \"C:\\Program Files\\mingw\\mingw64\\bin\\g++.exe\""
+        }
+        // MSVC compiler parameters:
+        // {
+        //     "type": "cppbuild",
+        //     "label": "cl.exe build active file",
+        //     "command": "cl.exe",
+        //     "args": [
+        //       "/Zi",
+        //       "/EHsc",
+        //       "/Fe:",
+        //       "${fileDirname}\\${fileBasenameNoExtension}.exe",
+        //       "${file}"
+        //     ],
+        //     "problemMatcher": ["$msCompile"],
+        //     "group": {
+        //       "kind": "build",
+        //       "isDefault": true
+        //     },
+        //     "detail": "Manually added cl.exe"
+        // }
+    ]
+}
